@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <div class="login" style="display: none">
+        <input placeholder="username" name="username">
+        <input placeholder="password" name="password">
+        <input type="submit" value="Login">
+    </div>
+    <div class="profile"></div>
+    <script>
+        document.querySelector('[type=submit]').addEventListener('click', e => {
+
+            const cred = new PasswordCredential({
+                id: document.querySelector('[name=username]').value,
+                password: document.querySelector('[name=password]').value,
+                name: document.querySelector('[name=username]').value
+            });
+
+            navigator.credentials.store(cred)
+                .then(() => {
+                    console.log('Saved password');
+                })
+        });
+
+            navigator.credentials.get({ password: true })
+                .then((cred) => {
+                    if(cred) {
+                        document.querySelector('.profile').innerHTML = `Welcome ${cred.id} !`;
+                    } else {
+                        document.querySelector('.login').style.display = 'block';
+                    }
+                });
+    </script>
+</body>
+
+</html>
